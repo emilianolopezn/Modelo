@@ -53,6 +53,8 @@ void dibujar() {
 	glBindVertexArray(0);
 	//Soltar el shader
 	shader->desenlazarShader();
+
+	figura->dibujar(GL_POLYGON);
 }
 
 void inicializarFigura() {
@@ -161,6 +163,9 @@ int main()
 
 	//Desenlazar shader
 	shader->desenlazarShader();
+
+	figura->shader = shader;
+	figura->inicializarVertexArray(posicionID, colorID);
 
 	//Crear un vertex array
 	glGenVertexArrays(1, &vertexArrayID);
