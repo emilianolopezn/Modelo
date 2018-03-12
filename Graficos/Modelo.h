@@ -15,11 +15,14 @@ using namespace std;
 class Modelo {
 public:
 	vector<Vertice> vertices;
+	mat4 transformaciones;
+
 	Shader *shader;
 	GLuint vertexArrayID;
 	GLuint bufferID;
+	GLuint transformacionesID;
 	Modelo();
-	void inicializarVertexArray(GLuint posicionID, GLuint colorID);
+	void inicializarVertexArray(GLuint posicionID, GLuint colorID, GLuint transformacionesID);
 	void dibujar(GLenum modoDibujo);
 	
 };
