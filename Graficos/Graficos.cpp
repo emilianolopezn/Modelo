@@ -17,6 +17,7 @@
 #include "Vertice.h"
 #include "Shader.h"
 #include "Modelo.h"
+#include "Nave.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ GLuint posicionID;
 GLuint colorID;
 GLuint transformacionesID;
 
-Modelo *figura;
+Nave *nave;
 Modelo *cuadrado;
 
 Shader *shader;
@@ -37,34 +38,42 @@ void actualizar() {
 	int estadoDerecha = 
 		glfwGetKey(window, GLFW_KEY_RIGHT);
 	if (estadoDerecha == GLFW_PRESS) {
-		/*cuadrado->transformaciones =
-			translate(cuadrado->transformaciones,
-			vec3(0.001f, 0.0f, 0.0f));*/
-		/*cuadrado->transformaciones =
-			scale(cuadrado->transformaciones,
-				vec3(1.001f, 1.001f, 1.001f));*/
-		cuadrado->transformaciones =
-			rotate(cuadrado->transformaciones,
-				0.05f, vec3(0.0f, 0.0f, 1.0f));
+		nave->rotarNave(1);
 	}
+
+	int estadoIzquierda =
+		glfwGetKey(window, GLFW_KEY_LEFT);
+	if (estadoIzquierda == GLFW_PRESS) {
+		nave->rotarNave(0);
+	}
+
+	int estadoArriba =
+		glfwGetKey(window, GLFW_KEY_UP);
+	if (estadoArriba == GLFW_PRESS) {
+		nave->moverNave();
+	}
+
+	
+
+	
 }
 
 void dibujar() {
-	figura->dibujar(GL_POLYGON);
-	cuadrado->dibujar(GL_POLYGON);
+	nave->dibujar(GL_POLYGON);
+	//cuadrado->dibujar(GL_POLYGON);
 }
 
 void inicializarFigura() {
-	figura = new Modelo();
+	nave = new Nave();
 	Vertice v1 =
-	{ vec4(-1.0f,0.5f,0.0f,1.0f), vec4(1.0f,0.0f,1.0f,1.0f) };
+	{ vec4(-0.1f,-0.1f,0.0f,1.0f), vec4(1.0f,0.0f,1.0f,1.0f) };
 	Vertice v2 =
-	{ vec4(0.0f,-0.5f,0.0f,1.0f), vec4(1.0f,0.0f,1.0f,1.0f) };
+	{ vec4(0.0f,0.1f,0.0f,1.0f), vec4(1.0f,0.0f,1.0f,1.0f) };
 	Vertice v3 =
-	{ vec4(1.0f,0.5f,0.0f,1.0f), vec4(1.0f,0.0f,1.0f,1.0f) };
-	figura->vertices.push_back(v1);
-	figura->vertices.push_back(v2);
-	figura->vertices.push_back(v3);
+	{ vec4(0.1f,-0.1f,0.0f,1.0f), vec4(1.0f,0.0f,1.0f,1.0f) };
+	nave->vertices.push_back(v1);
+	nave->vertices.push_back(v2);
+	nave->vertices.push_back(v3);
 }
 
 void inicializarCuadrado() {
@@ -146,8 +155,8 @@ int main()
 	//Desenlazar shader
 	shader->desenlazarShader();
 
-	figura->shader = shader;
-	figura->inicializarVertexArray(posicionID, colorID, transformacionesID);
+	nave->shader = shader;
+	nave->inicializarVertexArray(posicionID, colorID, transformacionesID);
 
 	cuadrado->shader = shader;
 	cuadrado->inicializarVertexArray(posicionID, colorID, transformacionesID);
